@@ -28,7 +28,7 @@ function addRandomGreeting() {
 }
 
 function loadContent() {
-    addName();
+    // addName();
     addComments();
 }
 

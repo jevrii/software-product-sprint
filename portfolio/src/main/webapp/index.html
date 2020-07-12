@@ -9,13 +9,23 @@
   <body onload="loadContent()">
     <div id="content">
       <h1>My Portfolio</h1>
-      <p>This is my portfolio.</p>
+      <p>This is Chunyin's portfolio.</p>
       <p>Click here to get a random message:</p>
       <button onclick="addRandomGreeting()">Hello</button>
       <div id="greeting-container"></div>
     </div>
-    <div id="name-container"></div>
+    Comments:
     <div id="comments-container"></div>
-    <img src="images/firey.jpg"/>
+
+    <form action="/data" method="POST">
+      <p>Comment box:</p>
+      <textarea name="text-input"></textarea>
+      <br/><br/>
+
+      <input type="submit" />
+    </form>
+
+    <img src="images/firey.jpg" height="300"/>
+
   </body>
 </html>

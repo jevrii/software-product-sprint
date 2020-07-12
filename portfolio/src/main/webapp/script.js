@@ -27,8 +27,36 @@ function addRandomGreeting() {
   greetingContainer.innerText = greeting;
 }
 
-async function addName() {   
-  const response = await fetch('/data');
-  const name = await response.text();
-  document.getElementById('name-container').innerText = name;
+function loadContent() {
+    addName();
+    addComments();
+}
+
+function addName() {   
+//   const response = await fetch('/data');
+//   const name = await response.text();
+  document.getElementById('name-container').innerText = "Chunyin";
+}
+
+function addComments() {
+  fetch('/data').then(response => response.json()).then((comments) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+    console.log(comments);
+
+    const commentsListElement = document.getElementById('comments-container');
+    commentsListElement.innerHTML = '';
+
+    var i;
+    for (i = 0; i < comments.length; i++) {
+        commentsListElement.appendChild(createListElement(comments[i]));
+    }
+  });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
 }

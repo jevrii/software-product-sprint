@@ -28,14 +28,7 @@ function addRandomGreeting() {
 }
 
 function loadContent() {
-    // addName();
     addComments();
-}
-
-function addName() {   
-//   const response = await fetch('/data');
-//   const name = await response.text();
-  document.getElementById('name-container').innerText = "Chunyin";
 }
 
 function addComments() {

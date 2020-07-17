@@ -26,3 +26,30 @@ function addRandomGreeting() {
   const greetingContainer = document.getElementById('greeting-container');
   greetingContainer.innerText = greeting;
 }
+
+function loadContent() {
+    addComments();
+}
+
+function addComments() {
+  fetch('/data').then(response => response.json()).then((comments) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+    console.log(comments);
+
+    const commentsListElement = document.getElementById('comments-container');
+    commentsListElement.innerHTML = '';
+
+    var i;
+    for (i = 0; i < comments.length; i++) {
+        commentsListElement.appendChild(createListElement(comments[i]));
+    }
+  });
+}
+
+/** Creates an <li> element containing text. */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}

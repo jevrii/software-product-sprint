@@ -29,6 +29,7 @@ function addRandomGreeting() {
 
 function loadContent() {
     addComments();
+    setFormVisibilityBasedOnLogin();
 }
 
 function addComments() {
@@ -43,6 +44,17 @@ function addComments() {
     var i;
     for (i = 0; i < comments.length; i++) {
         commentsListElement.appendChild(createListElement(comments[i]));
+    }
+  });
+}
+
+function setFormVisibilityBasedOnLogin() {
+    fetch('/login_status').then(response => response.json()).then((login_status) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+    console.log(login_status);
+    if (login_status == true) {
+        document.getElementById("comment_form").style.display = "block";
     }
   });
 }

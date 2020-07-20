@@ -23,6 +23,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.sps.data.LoginStatus;
+
 @WebServlet("/login_status")
 public class LoginStatusServlet extends HttpServlet {
   @Override
@@ -30,7 +32,18 @@ public class LoginStatusServlet extends HttpServlet {
     response.setContentType("application/json;");
 
     UserService userService = UserServiceFactory.getUserService();
-    String json = new Gson().toJson(userService.isUserLoggedIn());
+    LoginStatus status = new LoginStatus();
+    if (userService.isUserLoggedIn()) {
+      status.logged_in = true;
+      status.userEmail = userService.getCurrentUser().getEmail();
+      status.logoutUrl = userService.createLogoutURL("/index.html");
+    }
+    else {
+      status.logged_in = false;
+      status.loginUrl = userService.createLoginURL("/index.html");
+    }
+
+    String json = new Gson().toJson(status);
     response.getWriter().println(json);
   }
 }

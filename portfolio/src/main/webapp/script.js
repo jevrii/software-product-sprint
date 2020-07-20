@@ -43,7 +43,7 @@ function addComments() {
 
     var i;
     for (i = 0; i < comments.length; i++) {
-        commentsListElement.appendChild(createListElement(comments[i]));
+        commentsListElement.appendChild(createListElement(comments[i].email + ": " + comments[i].comment));
     }
   });
 }

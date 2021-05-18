@@ -17,13 +17,16 @@
     Comments:
     <div id="comments-container"></div>
 
-    <form action="/data" method="POST">
+    <form id="comment_form" action="/data" method="POST" style="display: none;">
       <p>Comment box:</p>
       <textarea name="text-input"></textarea>
       <br/><br/>
 
       <input type="submit" />
     </form>
+    <p id="comments_form_hide_msg" style="display: none;">Login to add comments</p>
+    <p><a id="login_button" style="display: none;">Login</a></p>
+    <p><a id="logout_button" style="display: none;">Logout</a></p>
 
     <img src="images/firey.jpg" height="300"/>
 

@@ -15,6 +15,11 @@
 package com.google.sps.servlets;
 import com.google.gson.Gson;
 
+import com.google.sps.data.Comment;
+
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
+
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -35,10 +40,12 @@ import javax.servlet.http.HttpServletResponse;
 public class DataServlet extends HttpServlet {
 
   DatastoreService datastore;
+  UserService userService;
 
   @Override
   public void init() {
     datastore = DatastoreServiceFactory.getDatastoreService();
+    userService = UserServiceFactory.getUserService();
   }
 
   @Override
@@ -48,10 +55,12 @@ public class DataServlet extends HttpServlet {
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     PreparedQuery results = datastore.prepare(query);
 
-    List<String> comments = new ArrayList<>();
+    List<Comment> comments = new ArrayList<>();
     for (Entity entity : results.asIterable()) {
-      String text = (String) entity.getProperty("comment");
-      comments.add(text);
+      Comment comment = new Comment();
+      comment.comment = (String) entity.getProperty("comment");
+      comment.email = (String) entity.getProperty("email");
+      comments.add(comment);
     }
 
     Gson gson = new Gson();
@@ -69,6 +78,7 @@ public class DataServlet extends HttpServlet {
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("comment", text);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("email", userService.getCurrentUser().getEmail());
 
     
     datastore.put(commentEntity);

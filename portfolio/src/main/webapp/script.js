@@ -29,6 +29,7 @@ function addRandomGreeting() {
 
 function loadContent() {
     addComments();
+    setFormVisibilityBasedOnLogin();
 }
 
 function addComments() {
@@ -42,7 +43,28 @@ function addComments() {
 
     var i;
     for (i = 0; i < comments.length; i++) {
-        commentsListElement.appendChild(createListElement(comments[i]));
+        commentsListElement.appendChild(createListElement(comments[i].email + ": " + comments[i].comment));
+    }
+  });
+}
+
+function setFormVisibilityBasedOnLogin() {
+    fetch('/login_status').then(response => response.json()).then((login_status) => {
+    // stats is an object, not a string, so we have to
+    // reference its fields to create HTML content
+    if (login_status.logged_in == true) {
+        document.getElementById("comment_form").style.display = "block";
+        document.getElementById("comments_form_hide_msg").style.display = "none";
+        document.getElementById("login_button").style.display = "none";
+        document.getElementById("logout_button").style.display = "block";
+        document.getElementById("logout_button").href = login_status.logoutUrl;
+    }
+    else {
+      document.getElementById("comment_form").style.display = "none";
+      document.getElementById("comments_form_hide_msg").style.display = "block";
+      document.getElementById("login_button").style.display = "block";
+      document.getElementById("logout_button").style.display = "none";
+      document.getElementById("login_button").href = login_status.loginUrl;
     }
   });
 }
